@@ -19,11 +19,12 @@
   <meta name="twitter:title" content="King Blast Cleaning Services | Mandurah WA">
   <meta name="twitter:description" content="Family owned Mandurah business. Window, carpet, tile and grout, vinyl, and high pressure cleaning and sealing.">
   <meta name="twitter:image" content="https://www.kingblast.com.au/img/pool-path.webp">
+  <!-- When kingblast.com.au points at this site, 301 the old Weebly URLs to these anchors. Add review schema only after real reviews are published on the page. -->
   <meta name="theme-color" content="#071827">
   <link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="img/apple-touch.png">
   <style>body{margin:0;background:#f6f4ef;color:#142033;font-family:Georgia,"Times New Roman",serif}.site-header{background:#f6f4ef;color:#142033;border-bottom:1px solid #e4ddd2}</style>
-  <link rel="stylesheet" href="css/styles.css?v=6">
+  <link rel="stylesheet" href="css/styles.css?v=10">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -70,16 +71,16 @@
       <a class="header-call" href="tel:0410786683">0410 786 683</a>
     </div>
   </header>
-  <main class="stage-host" id="main">
-    <section class="panel" id="home" aria-labelledby="home-title">
+  <main class="page" id="main">
+    <section class="hero" id="home" aria-labelledby="home-title">
       <div class="copy">
         <p class="kicker">Mandurah · Peel · Perth · Southwest</p>
         <h1 id="home-title">King Blast<br><em>Cleaning Services</em></h1>
         <p class="lede">Sit back and relax while we organize and complete your cleaning needs. Family owned in Mandurah for over 10 years, for residential, commercial and industrial cleaning.</p>
         <div class="actions">
           <a class="btn" href="tel:0410786683">Call 0410 786 683</a>
-          <a class="btn btn-ghost" href="#services">Services</a>
-          <a class="btn btn-ghost" href="#contact">Email us</a>
+          <a class="btn btn-ghost" href="sms:0410786683?&amp;body=Hi%20Steve%2C%20I%27d%20like%20a%20quote.">Text for a quote</a>
+          <a class="btn btn-ghost" href="https://wa.me/61410786683?text=Hi%20Steve%2C%20I%27d%20like%20a%20quote.">WhatsApp</a>
         </div>
         <ul class="facts">
           <li><span>Based in</span> Mandurah</li>
@@ -87,6 +88,10 @@
           <li><span>Cover</span> Fully insured and registered</li>
           <li><span>ABN</span> 83 782 821 831</li>
         </ul>
+        <div class="owner">
+          <p class="owner-mark" aria-hidden="true">S</p>
+          <p><strong>Steve</strong><br>Family owned in Mandurah for over 10 years. Call or text <a href="tel:0410786683">0410 786 683</a>.</p>
+        </div>
       </div>
       <div class="stage" data-stage="compare" aria-label="Pool surround, before and after">
         <div class="slides">
@@ -106,28 +111,30 @@
       </div>
     </section>
 
-    <section class="panel" id="services" aria-labelledby="services-title">
-      <header class="service-bar">
-        <h1 id="services-title">Services</h1>
-        <nav class="service-nav" aria-label="Choose a service">
-          <a href="#pressure" aria-current="true">Pressure</a>
-          <a href="#carpet">Carpet</a>
-          <a href="#windows">Windows</a>
-          <a href="#tile">Tile</a>
-          <a href="#vinyl">Vinyl</a>
-          <a href="#sealing">Sealing</a>
-        </nav>
+    <section class="band" aria-labelledby="steps-title">
+      <h2 id="steps-title">How it works</h2>
+      <ol class="steps">
+        <li><strong>Call or text</strong> 0410 786 683</li>
+        <li><strong>Tell us</strong> the service and the suburb</li>
+        <li><strong>We clean</strong> the job we quoted</li>
+      </ol>
+      <p>Based in Mandurah. Servicing the Peel Region, the Perth Region, and the Southwest.</p>
+    </section>
+
+    <section class="jobs" id="services" aria-labelledby="services-title">
+      <header class="jobs-intro">
+        <h2 id="services-title">Services</h2>
       </header>
-      <div class="service-host">
-      <article class="service" id="pressure" aria-labelledby="pressure-title">
+      <article class="job" id="pressure" aria-labelledby="pressure-title">
       <div class="copy">
         <p class="kicker">High pressure cleaning and sealing</p>
         <h2 id="pressure-title">Bring it back<br><em>to life.</em></h2>
         <p class="lede">Driveways, patios, sidewalks and pavers. Mold, mildew, stain and oil removal. Long-lasting sealing. Fast, reliable and affordable. Residential and commercial.</p>
         <p>Protect your investment. Enhance curb appeal. Sealing helps prevent future stains, cracking and erosion.</p>
-        <p class="note">Photos from the King Blast pressure cleaning gallery.</p>
+        <p class="note">Photos from the King Blast pressure cleaning gallery. The price depends on the surface. Ask when you call.</p>
         <div class="actions">
           <a class="btn" href="tel:0410786683">Call 0410 786 683</a>
+          <a class="btn btn-ghost" href="sms:0410786683?&amp;body=Hi%20Steve%2C%20I%27d%20like%20a%20quote%20for%20pressure%20cleaning.">Text for a quote</a>
           <a class="btn btn-ghost" href="#sealing">Sealing</a>
         </div>
       </div>
@@ -166,14 +173,18 @@
       </div>
       </article>
 
-      <article class="service" id="carpet" aria-labelledby="carpet-title" hidden="until-found">
+      <article class="job" id="carpet" aria-labelledby="carpet-title">
       <div class="copy">
         <p class="kicker">Carpet cleaning</p>
         <h2 id="carpet-title">Fresh, clean<br><em>carpets.</em></h2>
-        <p class="lede">Guaranteed. Stain and odor removal, pet-friendly and fast drying, deep extraction. Residential and commercial. Same-day service available.</p>
+        <p class="lede">Guaranteed. Stain and odor removal, pet-friendly and fast drying, deep extraction. Residential and commercial.</p>
+        <p class="avail">Same-day service available.</p>
         <p>Our advanced equipment lifts dirt, allergens and bacteria.</p>
-        <p class="note">Photos from the King Blast carpet cleaning gallery.</p>
-        <div class="actions"><a class="btn" href="tel:0410786683">Call 0410 786 683</a></div>
+        <p class="note">Photo from the King Blast carpet cleaning gallery.</p>
+        <div class="actions">
+          <a class="btn" href="tel:0410786683">Call 0410 786 683</a>
+          <a class="btn btn-ghost" href="sms:0410786683?&amp;body=Hi%20Steve%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">Text for a quote</a>
+        </div>
       </div>
       <div class="stage" data-stage="compare" aria-label="Carpet, before and after">
         <div class="slides">
@@ -193,14 +204,17 @@
       </div>
       </article>
 
-      <article class="service" id="windows" aria-labelledby="windows-title" hidden="until-found">
+      <article class="job" id="windows" aria-labelledby="windows-title">
       <div class="copy">
         <p class="kicker">Pure water window cleaning</p>
         <h2 id="windows-title">No spots. No smears.<br><em>No marks.</em></h2>
         <p class="lede">As pure water leaves nothing but pure water on the glass, your windows stay cleaner for longer. Nothing is left to attract the dirt back.</p>
         <p>Spot-free finish. No harsh chemicals. Safe for 2nd and 3rd storey windows. Eco-friendly and no residue. Residential and commercial.</p>
-        <p class="note">Photos from the King Blast window cleaning gallery.</p>
-        <div class="actions"><a class="btn" href="tel:0410786683">Call 0410 786 683</a></div>
+        <p class="note">Photos from the King Blast window cleaning gallery. The price depends on the windows. Ask when you call.</p>
+        <div class="actions">
+          <a class="btn" href="tel:0410786683">Call 0410 786 683</a>
+          <a class="btn btn-ghost" href="sms:0410786683?&amp;body=Hi%20Steve%2C%20I%27d%20like%20a%20quote%20for%20window%20cleaning.">Text for a quote</a>
+        </div>
       </div>
       <div class="stage" data-stage="photos">
         <figure class="photo is-on">
@@ -232,13 +246,16 @@
       </div>
       </article>
 
-      <article class="service" id="tile" aria-labelledby="tile-title" hidden="until-found">
+      <article class="job" id="tile" aria-labelledby="tile-title">
       <div class="copy">
         <p class="kicker">Tile and grout cleaning</p>
         <h2 id="tile-title">Make the floors look<br><em>like new.</em></h2>
         <p class="lede">Deep steam cleaning and stain removal. Sanitizes grout lines and eliminates mold and bacteria. Bathroom, kitchen, entryways and more. Residential and commercial.</p>
-        <p><strong>Free estimates. Satisfaction guaranteed.</strong></p>
-        <div class="actions"><a class="btn" href="tel:0410786683">Call 0410 786 683</a></div>
+        <p class="avail">Free estimates. Satisfaction guaranteed.</p>
+        <div class="actions">
+          <a class="btn" href="tel:0410786683">Call 0410 786 683</a>
+          <a class="btn btn-ghost" href="sms:0410786683?&amp;body=Hi%20Steve%2C%20I%27d%20like%20a%20quote%20for%20tile%20and%20grout%20cleaning.">Text for a quote</a>
+        </div>
       </div>
       <div class="stage">
         <div class="quiet">
@@ -247,24 +264,24 @@
       </div>
       </article>
 
-      <article class="service" id="vinyl" aria-labelledby="vinyl-title" hidden="until-found">
+      <article class="job" id="vinyl" aria-labelledby="vinyl-title">
       <div class="copy">
         <p class="kicker">Vinyl cleaning</p>
         <h2 id="vinyl-title">One of the services<br><em>we specialise in.</em></h2>
-        <p class="lede">Vinyl cleaning is one of the services we specialise in. Call or email to arrange it.</p>
+        <p class="lede">Vinyl cleaning is one of the services we specialise in. Call or text to arrange it, or email Kingblast@outlook.com.</p>
         <div class="actions">
           <a class="btn" href="tel:0410786683">Call 0410 786 683</a>
-          <a class="btn btn-ghost" href="mailto:Kingblast@outlook.com">Email Kingblast@outlook.com</a>
+          <a class="btn btn-ghost" href="sms:0410786683?&amp;body=Hi%20Steve%2C%20I%27d%20like%20a%20quote%20for%20vinyl%20cleaning.">Text for a quote</a>
         </div>
       </div>
       <div class="stage">
         <div class="quiet">
-          <p><a href="mailto:Kingblast@outlook.com">Kingblast@outlook.com</a></p>
+          <p><a href="tel:0410786683">0410 786 683</a></p>
         </div>
       </div>
       </article>
 
-      <article class="service" id="sealing" aria-labelledby="sealing-title" hidden="until-found">
+      <article class="job" id="sealing" aria-labelledby="sealing-title">
       <div class="copy">
         <p class="kicker">Sealing bricks and concrete</p>
         <h2 id="sealing-title">Protect the<br><em>investment.</em></h2>
@@ -272,6 +289,7 @@
         <p class="note">Photos from the King Blast pressure cleaning gallery. Pale concrete beside dark concrete.</p>
         <div class="actions">
           <a class="btn" href="tel:0410786683">Call 0410 786 683</a>
+          <a class="btn btn-ghost" href="sms:0410786683?&amp;body=Hi%20Steve%2C%20I%27d%20like%20a%20quote%20for%20sealing.">Text for a quote</a>
           <a class="btn btn-ghost" href="#pressure">Pressure cleaning</a>
         </div>
       </div>
@@ -292,43 +310,58 @@
         </div>
       </div>
       </article>
-      </div>
     </section>
 
-    <section class="panel" id="contact" aria-labelledby="contact-title">
+    <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="copy">
         <p class="kicker">Mandurah</p>
-        <h2 id="contact-title">Send an email, or<br><em>call or text.</em></h2>
-        <p class="lede">M: <a href="tel:0410786683">0410 786 683</a><br>Text: <a href="sms:0410786683">0410 786 683</a><br>E: <a href="mailto:Kingblast@outlook.com">Kingblast@outlook.com</a></p>
-        <p>Fully insured and registered. ABN 83 782 821 831.</p>
+        <h2 id="contact-title">Text or call for a quote.</h2>
+        <div class="owner">
+          <p class="owner-mark" aria-hidden="true">S</p>
+          <p><strong>Steve</strong><br>M: <a href="tel:0410786683">0410 786 683</a><br>Text: <a href="sms:0410786683?&amp;body=Hi%20Steve%2C%20I%27d%20like%20a%20quote.">0410 786 683</a><br>WhatsApp: <a href="https://wa.me/61410786683?text=Hi%20Steve%2C%20I%27d%20like%20a%20quote.">0410 786 683</a></p>
+        </div>
+        <p>Fully insured and registered. ABN 83 782 821 831. Email Kingblast@outlook.com.</p>
       </div>
-      <form id="enquiry" class="form" action="mailto:Kingblast@outlook.com" method="post" enctype="text/plain" aria-labelledby="contact-title">
-        <p class="hint" id="enquiry-hint">All fields are required. Submitting opens your email app. This website does not store or send the form.</p>
-        <div class="field">
-          <label for="given-name">First name <span class="req" aria-hidden="true">*</span></label>
-          <input id="given-name" name="given-name" type="text" autocomplete="given-name" required enterkeyhint="next" aria-invalid="false">
-          <p class="error" id="err-given">Enter your first name.</p>
+      <form id="quote" class="form" action="mailto:Kingblast@outlook.com" method="post" enctype="text/plain" aria-labelledby="contact-title" aria-describedby="quote-hint">
+        <p class="hint" id="quote-hint">Fields marked * are required. Sending opens a text to Steve. This website does not store the form. If text is not available, the form opens an email instead.</p>
+        <div class="hp" aria-hidden="true">
+          <label for="company">Company</label>
+          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
         </div>
         <div class="field">
-          <label for="family-name">Last name <span class="req" aria-hidden="true">*</span></label>
-          <input id="family-name" name="family-name" type="text" autocomplete="family-name" required enterkeyhint="next" aria-invalid="false">
-          <p class="error" id="err-family">Enter your last name.</p>
+          <label for="name">Name <span class="req" aria-hidden="true">*</span></label>
+          <input id="name" name="name" type="text" autocomplete="name" required enterkeyhint="next" aria-invalid="false" data-error="err-name">
+          <p class="error" id="err-name">Enter your name.</p>
         </div>
-        <div class="field wide">
-          <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
-          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" required enterkeyhint="next" aria-invalid="false">
-          <p class="error" id="err-email">Enter a valid email address.</p>
+        <div class="field">
+          <label for="phone">Phone <span class="req" aria-hidden="true">*</span></label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required enterkeyhint="next" aria-invalid="false" data-error="err-phone" minlength="8">
+          <p class="error" id="err-phone">Enter a phone number.</p>
         </div>
-        <div class="field wide">
-          <label for="comment">Comment <span class="req" aria-hidden="true">*</span></label>
-          <textarea id="comment" name="comment" required enterkeyhint="send" aria-invalid="false"></textarea>
-          <p class="error" id="err-comment">Enter a comment.</p>
+        <div class="field">
+          <label for="service">Service <span class="req" aria-hidden="true">*</span></label>
+          <select id="service" name="service" required aria-invalid="false" data-error="err-service">
+            <option value="">Choose a service</option>
+            <option>Pressure cleaning</option>
+            <option>Carpet cleaning</option>
+            <option>Window cleaning</option>
+            <option>Tile and grout cleaning</option>
+            <option>Vinyl cleaning</option>
+            <option>Sealing</option>
+          </select>
+          <p class="error" id="err-service">Choose a service.</p>
         </div>
-        <button class="btn" type="submit">Email this enquiry</button>
+        <div class="field">
+          <label for="suburb">Suburb <span class="req" aria-hidden="true">*</span></label>
+          <input id="suburb" name="suburb" type="text" autocomplete="address-level2" required enterkeyhint="send" aria-invalid="false" data-error="err-suburb">
+          <p class="error" id="err-suburb">Enter your suburb.</p>
+        </div>
+        <button class="btn" type="submit">Text these details</button>
+        <p id="quote-status" role="status" hidden></p>
       </form>
     </section>
   </main>
   <a class="call-bar" href="tel:0410786683">Call 0410 786 683</a>
-  <script src="js/site.js?v=6" defer></script>
+  <script src="js/site.js?v=10" defer></script>
 </body>
 </html>

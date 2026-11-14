@@ -104,61 +104,23 @@
     return hash;
   }
 
-  function visiblePanel() {
-    var hash = currentHash();
-    if (hash === "services" || (document.getElementById(hash) && document.getElementById(hash).classList.contains("service"))) {
-      return document.getElementById("services");
-    }
-    var panel = hash ? document.getElementById(hash) : null;
-    if (!panel || !panel.classList.contains("panel")) panel = document.getElementById("home");
-    return panel;
-  }
-
   function playVisible() {
-    var panel = visiblePanel();
     var hash = currentHash();
     var focus = hash ? document.getElementById(hash) : null;
-    var stage = focus && focus.classList && focus.classList.contains("service") ? focus.querySelector("[data-stage]") : null;
-    if (!stage) stage = panel.querySelector("[data-stage]");
+    var stage = focus && focus.classList && focus.classList.contains("job") ? focus.querySelector("[data-stage]") : null;
+    if (!stage) {
+      var home = document.getElementById("home");
+      stage = home ? home.querySelector("[data-stage]") : null;
+    }
     if (stage) play(activeBa(stage));
+    var currentHref = "#home";
+    if (hash === "services" || (focus && focus.classList && focus.classList.contains("job"))) currentHref = "#services";
+    else if (hash === "contact") currentHref = "#contact";
     var links = document.querySelectorAll(".site-nav a");
     for (var i = 0; i < links.length; i++) {
-      var on = links[i].getAttribute("href") === "#" + panel.id;
+      var on = links[i].getAttribute("href") === currentHref;
       if (on) links[i].setAttribute("aria-current", "page");
       else links[i].removeAttribute("aria-current");
-    }
-  }
-
-  var serviceIds = ["pressure", "carpet", "windows", "tile", "vinyl", "sealing"];
-
-  function chosenServiceId() {
-    var hash = currentHash();
-    if (hash === "services") return "pressure";
-    if (serviceIds.indexOf(hash) !== -1) return hash;
-    return "";
-  }
-
-  function showService(id) {
-    var services = document.getElementById("services");
-    if (!services) return;
-    var articles = services.querySelectorAll(".service");
-    for (var i = 0; i < articles.length; i++) {
-      if (articles[i].id === id) articles[i].removeAttribute("hidden");
-      else articles[i].setAttribute("hidden", "until-found");
-    }
-    var links = services.querySelectorAll(".service-nav a");
-    var currentLink = null;
-    for (var j = 0; j < links.length; j++) {
-      var on = links[j].getAttribute("href") === "#" + id;
-      if (on) {
-        links[j].setAttribute("aria-current", "true");
-        currentLink = links[j];
-      } else {
-        links[j].removeAttribute("aria-current");
-      }
-    }
-    if (currentLink && currentLink.scrollIntoView) {
-      currentLink.scrollIntoView({ block: "nearest", inline: "nearest", container: "nearest" });
     }
   }
 
@@ -166,26 +128,7 @@
     if ((location.hash || "") === "#window-cleaning") {
       history.replaceState(null, "", "#windows");
     }
-    var id = chosenServiceId();
-    if (id) showService(id);
     playVisible();
-    window.scrollTo(0, 0);
-    var services = document.getElementById("services");
-    if (services) services.scrollTop = 0;
-  }
-
-  var servicesSection = document.getElementById("services");
-  if (servicesSection) {
-    servicesSection.addEventListener("beforematch", function (event) {
-      var article = event.target && event.target.closest ? event.target.closest(".service") : null;
-      if (!article) return;
-      showService(article.id);
-      if (location.hash !== "#" + article.id) {
-        history.replaceState(null, "", "#" + article.id);
-      }
-      playVisible();
-      window.scrollTo(0, 0);
-    });
   }
 
   window.addEventListener("hashchange", revealHash);
@@ -261,9 +204,9 @@
     syncNav();
   }
 
-  var form = document.getElementById("enquiry");
+  var form = document.getElementById("quote");
   if (!form) return;
-  var fields = form.querySelectorAll("input, textarea");
+  var fields = form.querySelectorAll("input, select, textarea");
   var supportsUserInvalid = false;
   try {
     supportsUserInvalid = CSS.supports("selector(:user-invalid)");
@@ -271,36 +214,57 @@
     supportsUserInvalid = false;
   }
 
+  function idsWithout(el, errorId) {
+    return (el.getAttribute("aria-describedby") || "").split(/\s+/).filter(function (id) {
+      return id && id !== errorId;
+    });
+  }
+
   function sync(el, showFallback) {
-    var invalid = supportsUserInvalid ? el.matches(":user-invalid") : !el.checkValidity();
-    if (!supportsUserInvalid) el.classList.toggle("user-invalid-fallback", showFallback && invalid);
+    if (el.getAttribute("aria-hidden") === "true") return;
+    var invalid = supportsUserInvalid ? el.matches(":user-invalid") : (showFallback && !el.checkValidity());
+    if (!supportsUserInvalid) el.classList.toggle("user-invalid-fallback", showFallback && !el.checkValidity());
     el.setAttribute("aria-invalid", invalid ? "true" : "false");
+    var errorId = el.getAttribute("data-error");
+    if (!errorId) return;
+    var ids = idsWithout(el, errorId);
+    if (invalid) ids.push(errorId);
+    if (ids.length) el.setAttribute("aria-describedby", ids.join(" "));
+    else el.removeAttribute("aria-describedby");
   }
 
   for (var f = 0; f < fields.length; f++) {
     (function (el) {
+      if (el.getAttribute("aria-hidden") === "true") return;
       el.setAttribute("aria-invalid", "false");
       el.addEventListener("blur", function () { sync(el, true); });
-      el.addEventListener("input", function () {
-        if (el.checkValidity()) sync(el, false);
-      });
+      el.addEventListener("input", function () { sync(el, false); });
+      el.addEventListener("change", function () { sync(el, true); });
       el.addEventListener("invalid", function () { sync(el, true); });
     })(fields[f]);
   }
 
   form.addEventListener("submit", function (event) {
+    var trap = form.querySelector("[name=company]");
+    if (trap && trap.value) {
+      event.preventDefault();
+      return;
+    }
     if (!form.checkValidity()) return;
     event.preventDefault();
     var data = new FormData(form);
     var body = [
-      "First name: " + data.get("given-name"),
-      "Last name: " + data.get("family-name"),
-      "Email: " + data.get("email"),
-      "",
-      data.get("comment")
+      "Quote request for King Blast",
+      "Name: " + data.get("name"),
+      "Phone: " + data.get("phone"),
+      "Service: " + data.get("service"),
+      "Suburb: " + data.get("suburb")
     ].join("\n");
-    window.location.href = "mailto:Kingblast@outlook.com?subject=" +
-      encodeURIComponent("King Blast cleaning enquiry") +
-      "&body=" + encodeURIComponent(body);
+    var status = document.getElementById("quote-status");
+    if (status) {
+      status.hidden = false;
+      status.textContent = "Your text app should open with these details. Send the text to Steve on 0410 786 683.";
+    }
+    window.location.href = "sms:0410786683?&body=" + encodeURIComponent(body);
   });
 })();

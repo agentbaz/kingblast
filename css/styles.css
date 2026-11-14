@@ -79,10 +79,10 @@ a:hover {
 }
 
 body.app {
-  height: 100dvh;
-  overflow: hidden;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  height: auto;
+  min-height: 100dvh;
+  overflow: auto;
+  display: block;
 }
 
 .site-header {
@@ -1140,4 +1140,223 @@ body:not(.app) .site-footer {
 
 body:not(.app) .site-footer a {
   color: #fff;
+}
+
+.page {
+  padding-bottom: 1.5rem;
+}
+
+.hero,
+.band,
+.jobs,
+.contact {
+  padding-block: 1.25rem 1.5rem;
+  padding-inline: max(1rem, env(safe-area-inset-left, 0px)) max(1rem, env(safe-area-inset-right, 0px));
+}
+
+.hero {
+  display: grid;
+  gap: 1.15rem;
+}
+
+.band,
+.jobs-intro,
+.job,
+.contact {
+  border-top: 1px solid var(--line);
+}
+
+.band h2,
+.jobs-intro h2,
+.contact h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(1.7rem, 1rem + 2vw, 2.8rem);
+  line-height: 1.05;
+}
+
+.steps {
+  margin: 0 0 0.8rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.steps li {
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--line);
+}
+
+.hero .copy,
+.job .copy,
+.contact .copy {
+  justify-content: flex-start;
+}
+
+.job {
+  display: grid;
+  gap: 1rem;
+  padding-block: 1.4rem;
+  scroll-margin-top: 1rem;
+}
+
+.owner {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+.owner p {
+  margin: 0;
+}
+
+.owner-mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.4rem;
+}
+
+.avail {
+  margin: 0;
+  font-weight: 750;
+}
+
+.hero .stage,
+.job .stage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  min-height: 12rem;
+  overflow: hidden;
+}
+
+.hero .stage .slides,
+.hero .stage .slide.is-on,
+.hero .stage .ba,
+.hero .stage .photo.is-on,
+.job .stage .slides,
+.job .stage .slide.is-on,
+.job .stage .ba,
+.job .stage .photo.is-on,
+.job .stage .quiet {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  min-height: 0;
+}
+
+.contact {
+  display: grid;
+  gap: 1rem;
+}
+
+.hp {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.form {
+  position: relative;
+}
+
+select {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #3c4d61;
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+
+select:user-invalid,
+select.user-invalid-fallback {
+  border-color: var(--error);
+  border-width: 2px;
+}
+
+select:user-invalid + .error,
+select.user-invalid-fallback + .error {
+  display: block;
+}
+
+#quote-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-weight: 700;
+}
+
+@media (min-width: 960px) {
+  body.app #home.hero,
+  body.app .job,
+  body.app .contact {
+    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  body.app #home.hero .stage,
+  body.app .job .stage,
+  body.app #home.hero .copy,
+  body.app .job .copy,
+  body.app .contact .copy,
+  body.app .contact .form {
+    min-width: 0;
+  }
+
+  .hero {
+    min-height: calc(100dvh - 4.6rem);
+    padding: 1.25rem clamp(1.25rem, 3vw, 3rem) 1.5rem;
+  }
+
+  .band,
+  .jobs,
+  .contact {
+    padding-inline: clamp(1.25rem, 3vw, 3rem);
+  }
+
+  .steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  select {
+    background: #0d141c;
+    color: var(--ink);
+    border-color: #c9d0da;
+  }
+}
+
+body:not(:has(.panel:target)) .site-nav a[href="#home"] {
+  border-block-end-color: transparent;
+}
+
+body.app .site-header .site-nav a[aria-current="page"] {
+  border-block-end-color: var(--crown);
+}
+
+body.app #home.hero {
+  position: relative;
+  inset: auto;
+  height: auto;
+  overflow: visible;
 }
