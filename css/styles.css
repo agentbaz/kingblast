@@ -234,12 +234,8 @@ body.app {
 
 body:not(:has(.panel:target)) a[href="#home"],
 body:has(#home:target) a[href="#home"],
-body:has(#pressure:target) a[href="#pressure"],
-body:has(#carpet:target) a[href="#carpet"],
-body:has(#windows:target) a[href="#windows"],
-body:has(#tile:target) a[href="#tile"],
-body:has(#vinyl:target) a[href="#vinyl"],
-body:has(#sealing:target) a[href="#sealing"],
+body:has(#services:target) a[href="#services"],
+body:has(.service:target) a[href="#services"],
 body:has(#contact:target) a[href="#contact"] {
   border-block-end-color: var(--crown);
 }
@@ -270,6 +266,54 @@ body:not(:has(.panel:target)) #home {
   grid-template-rows: auto minmax(0, 1fr);
   gap: 0.75rem;
   padding: 0.85rem clamp(1rem, 2.5vw, 1.75rem) 0.95rem;
+}
+
+body:has(.service:target) #home {
+  display: none;
+}
+
+#services.panel:target,
+body:has(.service:target) #services {
+  display: block;
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  gap: 0;
+  overflow: auto;
+}
+
+.services-intro {
+  padding: 1.25rem clamp(1rem, 2.5vw, 1.75rem) 0.35rem;
+}
+
+.services-intro h1,
+.services-intro p {
+  margin: 0;
+}
+
+.services-intro h1 {
+  font-family: var(--serif);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-size: clamp(2rem, 1rem + 2.6vw, 4.1rem);
+  text-wrap: balance;
+}
+
+.services-intro .lede {
+  max-width: 40rem;
+  margin-top: 0.75rem;
+}
+
+.service {
+  display: grid;
+  gap: 1.15rem;
+  padding: 1.15rem clamp(1rem, 2.5vw, 1.75rem) 1.5rem;
+  scroll-margin-top: 0.75rem;
+}
+
+.service + .service {
+  border-top: 1px solid var(--line);
 }
 
 .copy {
@@ -688,6 +732,29 @@ textarea.user-invalid-fallback + .error {
     align-items: stretch;
   }
 
+  #services.panel:target,
+  body:has(.service:target) #services {
+    overflow: auto;
+  }
+
+  .services-intro {
+    padding: clamp(1.25rem, 4vh, 2.5rem) clamp(1.25rem, 3vw, 3rem) 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .service {
+    grid-template-columns: minmax(20rem, 0.82fr) minmax(18rem, 1.25fr);
+    gap: 0;
+    padding: 0;
+    min-height: 100%;
+    align-items: stretch;
+  }
+
+  .service .stage {
+    height: 100%;
+    min-height: 22rem;
+  }
+
   .copy {
     padding: clamp(1rem, 3vh, 2.25rem) clamp(1.25rem, 3vw, 3rem);
   }
@@ -716,6 +783,25 @@ textarea.user-invalid-fallback + .error {
     padding-block: 1.15rem 1.4rem;
     padding-inline-start: max(1rem, env(safe-area-inset-left, 0px));
     padding-inline-end: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  #services.panel:target,
+  body:has(.service:target) #services {
+    position: relative;
+    inset: auto;
+    overflow: visible;
+    height: auto;
+    padding: 0;
+  }
+
+  .services-intro,
+  .service {
+    padding-inline-start: max(1rem, env(safe-area-inset-left, 0px));
+    padding-inline-end: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  body:has(.service:target) #home {
+    display: none;
   }
 
   .copy {

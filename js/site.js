@@ -98,9 +98,17 @@
     })(compares[c]);
   }
 
-  function visiblePanel() {
+  function currentHash() {
     var hash = (location.hash || "").replace("#", "");
-    if (hash === "window-cleaning") hash = "windows";
+    if (hash === "window-cleaning") return "windows";
+    return hash;
+  }
+
+  function visiblePanel() {
+    var hash = currentHash();
+    if (hash === "services" || (document.getElementById(hash) && document.getElementById(hash).classList.contains("service"))) {
+      return document.getElementById("services");
+    }
     var panel = hash ? document.getElementById(hash) : null;
     if (!panel || !panel.classList.contains("panel")) panel = document.getElementById("home");
     return panel;
@@ -108,7 +116,10 @@
 
   function playVisible() {
     var panel = visiblePanel();
-    var stage = panel.querySelector("[data-stage]");
+    var hash = currentHash();
+    var focus = hash ? document.getElementById(hash) : null;
+    var stage = focus && focus.classList && focus.classList.contains("service") ? focus.querySelector("[data-stage]") : null;
+    if (!stage) stage = panel.querySelector("[data-stage]");
     if (stage) play(activeBa(stage));
     var links = document.querySelectorAll(".site-nav a");
     for (var i = 0; i < links.length; i++) {
@@ -118,11 +129,26 @@
     }
   }
 
-  window.addEventListener("hashchange", function () {
+  function revealHash() {
     playVisible();
-    if (window.matchMedia("(max-width: 959px)").matches) window.scrollTo(0, 0);
-  });
-  playVisible();
+    var hash = currentHash();
+    var target = hash ? document.getElementById(hash) : null;
+    var narrow = window.matchMedia("(max-width: 959px)").matches;
+    if (target && target.classList.contains("service")) {
+      target.scrollIntoView({ block: "start" });
+      return;
+    }
+    var services = document.getElementById("services");
+    if (hash === "services" && services) {
+      if (narrow) window.scrollTo(0, 0);
+      else services.scrollTop = 0;
+      return;
+    }
+    if (narrow) window.scrollTo(0, 0);
+  }
+
+  window.addEventListener("hashchange", revealHash);
+  revealHash();
 
   var header = document.querySelector(".site-header");
   var inner = header && header.querySelector(".header-bar");
