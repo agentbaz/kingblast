@@ -118,8 +118,81 @@
     }
   }
 
-  window.addEventListener("hashchange", playVisible);
+  window.addEventListener("hashchange", function () {
+    playVisible();
+    if (window.matchMedia("(max-width: 959px)").matches) window.scrollTo(0, 0);
+  });
   playVisible();
+
+  var header = document.querySelector(".site-header");
+  var inner = header && header.querySelector(".header-bar");
+  var menu = document.getElementById("site-menu");
+  if (header && inner && menu) {
+    var lastWidth = 0;
+    var measuring = false;
+    function syncNav() {
+      if (measuring) return;
+      var width = inner.clientWidth;
+      var collapsed = !header.classList.contains("is-wide");
+      if (collapsed && width > 0 && width <= lastWidth) {
+        lastWidth = width;
+        return;
+      }
+      lastWidth = width;
+      measuring = true;
+      var wasOpen = false;
+      try {
+        wasOpen = menu.matches(":popover-open");
+      } catch (err3) {
+        wasOpen = false;
+      }
+      header.classList.add("is-measuring", "is-wide");
+      var gap = parseFloat(window.getComputedStyle(inner).columnGap) || 0;
+      var needed = 0;
+      var visible = 0;
+      var kids = inner.children;
+      for (var k = 0; k < kids.length; k++) {
+        if (window.getComputedStyle(kids[k]).display === "none") continue;
+        needed += kids[k].getBoundingClientRect().width;
+        visible++;
+      }
+      needed += gap * Math.max(0, visible - 1);
+      var fits = needed <= inner.clientWidth + 1;
+      header.classList.toggle("is-wide", fits);
+      if (fits) {
+        menu.removeAttribute("popover");
+      } else if (Object.prototype.hasOwnProperty.call(HTMLElement.prototype, "popover")) {
+        menu.setAttribute("popover", "auto");
+        if (wasOpen && menu.showPopover) {
+          try {
+            menu.showPopover();
+          } catch (err4) {
+            wasOpen = false;
+          }
+        }
+      }
+      requestAnimationFrame(function () {
+        header.classList.remove("is-measuring");
+        measuring = false;
+      });
+    }
+    menu.addEventListener("click", function (event) {
+      if (!event.target.closest("a") || !menu.hidePopover) return;
+      try {
+        if (menu.matches(":popover-open")) menu.hidePopover();
+      } catch (err5) {
+        return;
+      }
+    });
+    if (window.ResizeObserver) {
+      var navObserver = new ResizeObserver(syncNav);
+      navObserver.observe(header);
+      navObserver.observe(menu);
+    } else {
+      window.addEventListener("resize", syncNav);
+    }
+    syncNav();
+  }
 
   var form = document.getElementById("enquiry");
   if (!form) return;
