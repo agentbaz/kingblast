@@ -274,46 +274,172 @@ body:has(.service:target) #home {
 
 #services.panel:target,
 body:has(.service:target) #services {
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
   position: absolute;
   inset: 0;
   padding: 0;
   gap: 0;
-  overflow: auto;
+  overflow: hidden;
 }
 
-.services-intro {
-  padding: 1.25rem clamp(1rem, 2.5vw, 1.75rem) 0.35rem;
+.service-bar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.35rem 1.15rem;
+  min-width: 0;
+  padding-block: 0.15rem;
+  padding-inline: max(clamp(1rem, 2.5vw, 1.75rem), env(safe-area-inset-left, 0px)) max(clamp(1rem, 2.5vw, 1.75rem), env(safe-area-inset-right, 0px));
+  border-block-end: 1px solid var(--line);
 }
 
-.services-intro h1,
-.services-intro p {
+.service-bar h1 {
+  flex: none;
   margin: 0;
-}
-
-.services-intro h1 {
   font-family: var(--serif);
   font-weight: 500;
   line-height: 1.05;
-  letter-spacing: -0.025em;
-  font-size: clamp(2rem, 1rem + 2.6vw, 4.1rem);
-  text-wrap: balance;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.25rem, 0.95rem + 1vw, 1.75rem);
 }
 
-.services-intro .lede {
-  max-width: 40rem;
-  margin-top: 0.75rem;
+@property --fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.service-nav {
+  --fade-size: 2rem;
+  --fade-dir: right;
+  --fade-start-pos: 0;
+  --fade-end-pos: 100%;
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 0;
+  overflow-x: auto;
+  scroll-snap-type: inline proximity;
+  scroll-padding-inline: var(--fade-size);
+  scrollbar-width: none;
+  mask:
+    linear-gradient(black, black) no-clip subtract,
+    linear-gradient(to var(--fade-dir), black, transparent) var(--fade-start-pos) 0 / var(--fade-start) 100% no-repeat no-clip,
+    linear-gradient(to var(--fade-dir), transparent, black) var(--fade-end-pos) 0 / var(--fade-end) 100% no-repeat no-clip;
+  animation: reveal-fade-start linear both, hide-fade-end linear both;
+  animation-timeline: scroll(self inline);
+  animation-range: 0 var(--fade-size), calc(100% - var(--fade-size)) 100%;
+}
+
+.service-nav::-webkit-scrollbar {
+  height: 0;
+}
+
+.service-nav:dir(rtl) {
+  --fade-dir: left;
+  --fade-start-pos: 100%;
+  --fade-end-pos: 0;
+}
+
+@keyframes reveal-fade-start {
+  to {
+    --fade-start: var(--fade-size);
+  }
+}
+
+@keyframes hide-fade-end {
+  from {
+    --fade-end: var(--fade-size);
+  }
+}
+
+.service-nav a {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding-inline: 0.7rem;
+  color: var(--ink);
+  font-weight: 650;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-decoration: none;
+  scroll-snap-align: start;
+}
+
+.service-nav a[aria-current="true"]::after,
+body:has(#pressure:target) .service-nav a[href="#pressure"]::after,
+body:has(#carpet:target) .service-nav a[href="#carpet"]::after,
+body:has(#windows:target) .service-nav a[href="#windows"]::after,
+body:has(#tile:target) .service-nav a[href="#tile"]::after,
+body:has(#vinyl:target) .service-nav a[href="#vinyl"]::after,
+body:has(#sealing:target) .service-nav a[href="#sealing"]::after,
+body:has(#services:target) .service-nav a[href="#pressure"]::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  border-block-end: 2px solid var(--crown);
+}
+
+.service-host {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .service {
+  grid-area: 1 / 1;
   display: grid;
-  gap: 1.15rem;
-  padding: 1.15rem clamp(1rem, 2.5vw, 1.75rem) 1.5rem;
-  scroll-margin-top: 0.75rem;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
-.service + .service {
-  border-top: 1px solid var(--line);
+.service[hidden] {
+  pointer-events: none;
+}
+
+.service:target {
+  display: grid !important;
+  content-visibility: visible !important;
+  pointer-events: auto;
+}
+
+body:has(.service:target) #pressure:not(:target) {
+  content-visibility: hidden;
+  pointer-events: none;
+}
+
+.service .copy {
+  overflow: auto;
+  padding: 0.85rem clamp(1rem, 2.5vw, 1.75rem) 1rem;
+  justify-content: safe center;
+}
+
+@supports not ((container-type: scroll-state) or (animation-timeline: scroll())) {
+  .service-nav {
+    background:
+      linear-gradient(to right, var(--paper) 30%, transparent) left / 2.5rem 100% no-repeat local,
+      linear-gradient(to left, var(--paper) 30%, transparent) right / 2.5rem 100% no-repeat local,
+      radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / 0.15), transparent) left / 0.75rem 100% no-repeat,
+      radial-gradient(farthest-side at 100% 50%, rgb(0 0 0 / 0.15), transparent) right / 0.75rem 100% no-repeat,
+      var(--paper);
+  }
 }
 
 .copy {
@@ -732,30 +858,18 @@ textarea.user-invalid-fallback + .error {
     align-items: stretch;
   }
 
-  #services.panel:target,
-  body:has(.service:target) #services {
-    overflow: auto;
-  }
-
-  .services-intro {
-    padding: clamp(1.25rem, 4vh, 2.5rem) clamp(1.25rem, 3vw, 3rem) 1rem;
-    border-bottom: 1px solid var(--line);
-  }
-
   .service {
     grid-template-columns: minmax(20rem, 0.82fr) minmax(18rem, 1.25fr);
-    gap: 0;
-    padding: 0;
-    min-height: 100%;
-    align-items: stretch;
+    grid-template-rows: minmax(0, 1fr);
   }
 
   .service .stage {
     height: 100%;
-    min-height: 22rem;
+    min-height: 0;
   }
 
-  .copy {
+  .copy,
+  .service .copy {
     padding: clamp(1rem, 3vh, 2.25rem) clamp(1.25rem, 3vw, 3rem);
   }
 
@@ -785,19 +899,37 @@ textarea.user-invalid-fallback + .error {
     padding-inline-end: max(1rem, env(safe-area-inset-right, 0px));
   }
 
-  #services.panel:target,
-  body:has(.service:target) #services {
-    position: relative;
-    inset: auto;
-    overflow: visible;
-    height: auto;
-    padding: 0;
+  body.app:has(#services:target),
+  body.app:has(.service:target) {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    display: grid;
   }
 
-  .services-intro,
+  #services.panel:target,
+  body:has(.service:target) #services {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    height: auto;
+  }
+
   .service {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) minmax(7.5rem, 28%);
+  }
+
+  .service .copy {
+    justify-content: flex-start;
     padding-inline-start: max(1rem, env(safe-area-inset-left, 0px));
     padding-inline-end: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  .service .stage {
+    aspect-ratio: auto;
+    height: 100%;
+    min-block-size: 0;
   }
 
   body:has(.service:target) #home {
@@ -940,6 +1072,17 @@ textarea.user-invalid-fallback + .error {
   }
 
   .site-nav a {
+    border-block-end-width: 3px;
+  }
+
+  .service-nav a[aria-current="true"]::after,
+  body:has(#pressure:target) .service-nav a[href="#pressure"]::after,
+  body:has(#carpet:target) .service-nav a[href="#carpet"]::after,
+  body:has(#windows:target) .service-nav a[href="#windows"]::after,
+  body:has(#tile:target) .service-nav a[href="#tile"]::after,
+  body:has(#vinyl:target) .service-nav a[href="#vinyl"]::after,
+  body:has(#sealing:target) .service-nav a[href="#sealing"]::after,
+  body:has(#services:target) .service-nav a[href="#pressure"]::after {
     border-block-end-width: 3px;
   }
 }

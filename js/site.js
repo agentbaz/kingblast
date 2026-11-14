@@ -129,22 +129,63 @@
     }
   }
 
-  function revealHash() {
-    playVisible();
+  var serviceIds = ["pressure", "carpet", "windows", "tile", "vinyl", "sealing"];
+
+  function chosenServiceId() {
     var hash = currentHash();
-    var target = hash ? document.getElementById(hash) : null;
-    var narrow = window.matchMedia("(max-width: 959px)").matches;
-    if (target && target.classList.contains("service")) {
-      target.scrollIntoView({ block: "start" });
-      return;
-    }
+    if (hash === "services") return "pressure";
+    if (serviceIds.indexOf(hash) !== -1) return hash;
+    return "";
+  }
+
+  function showService(id) {
     var services = document.getElementById("services");
-    if (hash === "services" && services) {
-      if (narrow) window.scrollTo(0, 0);
-      else services.scrollTop = 0;
-      return;
+    if (!services) return;
+    var articles = services.querySelectorAll(".service");
+    for (var i = 0; i < articles.length; i++) {
+      if (articles[i].id === id) articles[i].removeAttribute("hidden");
+      else articles[i].setAttribute("hidden", "until-found");
     }
-    if (narrow) window.scrollTo(0, 0);
+    var links = services.querySelectorAll(".service-nav a");
+    var currentLink = null;
+    for (var j = 0; j < links.length; j++) {
+      var on = links[j].getAttribute("href") === "#" + id;
+      if (on) {
+        links[j].setAttribute("aria-current", "true");
+        currentLink = links[j];
+      } else {
+        links[j].removeAttribute("aria-current");
+      }
+    }
+    if (currentLink && currentLink.scrollIntoView) {
+      currentLink.scrollIntoView({ block: "nearest", inline: "nearest", container: "nearest" });
+    }
+  }
+
+  function revealHash() {
+    if ((location.hash || "") === "#window-cleaning") {
+      history.replaceState(null, "", "#windows");
+    }
+    var id = chosenServiceId();
+    if (id) showService(id);
+    playVisible();
+    window.scrollTo(0, 0);
+    var services = document.getElementById("services");
+    if (services) services.scrollTop = 0;
+  }
+
+  var servicesSection = document.getElementById("services");
+  if (servicesSection) {
+    servicesSection.addEventListener("beforematch", function (event) {
+      var article = event.target && event.target.closest ? event.target.closest(".service") : null;
+      if (!article) return;
+      showService(article.id);
+      if (location.hash !== "#" + article.id) {
+        history.replaceState(null, "", "#" + article.id);
+      }
+      playVisible();
+      window.scrollTo(0, 0);
+    });
   }
 
   window.addEventListener("hashchange", revealHash);
